@@ -1,0 +1,91 @@
+﻿@model PosWebApplication.Models.Entities.ShoppingCart
+
+@{
+    ViewData["Title"] = "Shopping Cart - Pixel Vault Games";
+}
+
+<div class="container my-4">
+    <h2>🛒 Active Shopping Cart</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    @if (!Model.Items.Any())
+    {
+    <div class="alert alert-info mt-4 text-center">
+        <h4>Your cart is currently empty!</h4>
+        <p>Select items from our retro inventory to get started.</p>
+        <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary mt-2">Back to Catalog</a>
+    </div>
+    }
+    else
+    {
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Item</th>
+                    <th>Unit Price</th>
+                    <th style="width: 200px;">Quantity</th>
+                    <th>Line Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                    {
+                <tr>
+                    <td class="fw-bold">@item.ProductName</td>
+                    <td>$@item.UnitPrice.ToString("F2")</td>
+                    <td>
+                        <!-- US-03: Update Quantity Form -->
+                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                            <input type="number" name="Quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>
+                        </form>
+                    </td>
+                    <td class="fw-bold text-success">$@item.LineTotal.ToString("F2")</td>
+                    <td>
+                        <!-- US-04: Remove Item Form -->
+                        <form asp-controller="Cart" asp-action="RemoveItem" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-danger">🗑️ Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                    }
+            </tbody>
+            <tfoot>
+                <tr class="table-secondary fs-5 fw-bold">
+                    <td colspan="3" class="text-end">Grand Total:</td>
+                    <td class="text-success">$@Model.GrandTotal.ToString("F2")</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <a asp-controller="Catalog" asp-action="Index" class="btn btn-outline-primary">
+            ⬅️ Continue Shopping
+        </a>
+        <a asp-controller="Checkout" asp-action="Index" class="btn btn-success btn-lg">
+            💳 Proceed to Checkout
+        </a>
+    </div>
+    }
+</div>

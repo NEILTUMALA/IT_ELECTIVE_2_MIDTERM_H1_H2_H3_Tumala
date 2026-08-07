@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pixel Vault Games</title>
+
+    <!-- Bootstrap 5 CDN for immediate, guaranteed styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: #1a1a1a !important;
+            border-bottom: 2px solid #333333;
+        }
+
+        .card, .table-container, .alert {
+            background-color: #1e1e1e;
+            border: 1px solid #333333;
+            color: #ffffff;
+        }
+
+        .footer-custom {
+            background-color: #1a1a1a;
+            border-top: 1px solid #333333;
+        }
+
+        .nav-link.active, .nav-link:hover {
+            color: #0d6efd !important;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Header Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark navbar-custom py-3 shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold fs-4 text-light" asp-area="" asp-controller="Catalog" asp-action="Index">
+                    🎮 Pixel Vault Games
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav gap-2">
+                        <li class="nav-item">
+                            <a class="nav-link text-light fs-5 px-3" asp-area="" asp-controller="Catalog" asp-action="Index">
+                                🕹️ Catalog
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light fs-5 px-3" asp-area="" asp-controller="Cart" asp-action="Index">
+                                🛒 Cart
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light fs-5 px-3" asp-area="" asp-controller="Checkout" asp-action="History">
+                                📜 Sales History
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area (Centered) -->
+    <div class="container my-auto py-5">
+        <main role="main" class="d-flex flex-column align-items-center text-center">
+            <div class="w-100" style="max-width: 900px;">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom text-muted text-center py-3 mt-auto">
+        <div class="container">
+            <small class="text-secondary">&copy; 2026 - <strong>Pixel Vault Games</strong> | POS Application</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

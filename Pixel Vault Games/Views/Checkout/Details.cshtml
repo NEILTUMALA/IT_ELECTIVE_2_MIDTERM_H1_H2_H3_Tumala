@@ -1,0 +1,69 @@
+﻿@model PosWebApplication.Models.Entities.Transaction
+
+@{
+    ViewData["Title"] = $"Receipt #{Model.TransactionId} - Pixel Vault Games";
+}
+
+<div class="container my-4" style="max-width: 700px;">
+    @if (TempData["SuccessMessage"] != null)
+    {
+    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    <div class="card border-dark shadow">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="m-0">🧾 Transaction Receipt</h4>
+            <span class="badge bg-success fs-6">COMPLETED</span>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3 fs-6">
+                <div class="col-6">
+                    <strong>Transaction ID:</strong> #@Model.TransactionId<br />
+                    <strong>Customer Name:</strong> @Model.CustomerName
+                </div>
+                <div class="col-6 text-end">
+                    <strong>Date:</strong> @Model.Date.ToString("MMM dd, yyyy HH:mm")
+                </div>
+            </div>
+
+            <table class="table table-bordered mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">UnitPrice</th>
+                        <th class="text-end">Line Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PurchasedItems)
+                    {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td class="text-center">@item.Quantity</td>
+                        <td class="text-end">$@item.UnitPrice.ToString("F2")</td>
+                        <td class="text-end">$@item.LineTotal.ToString("F2")</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="fw-bold fs-5">
+                        <td colspan="3" class="text-end">Total Amount:</td>
+                        <td class="text-end text-success">$@Model.TotalAmount.ToString("F2")</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a asp-controller="Checkout" asp-action="History" class="btn btn-outline-secondary">
+                📜 Sales History
+            </a>
+            <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary">
+                🎮 Start Next Sale
+            </a>
+        </div>
+    </div>
+</div>
